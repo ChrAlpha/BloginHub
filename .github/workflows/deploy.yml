@@ -1,0 +1,60 @@
+name: Build WebSite
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          npm i
+          sudo apt-get install -y jq
+
+      - name: Process Config
+        id: config
+        run: |
+          touch ./_config.json && touch ./_site_config.json
+          npx js-yaml ./_config.yml >> ./_config.json
+          npx js-yaml ./src/site_config.yml >> ./_site_config.json
+          echo "::set-output name=theme::`jq --raw-output .theme ./_config.json`"
+          echo "::set-output name=theme_name::`jq --raw-output .theme ./_site_config.json`"
+          echo "::set-output name=plugin::`jq --raw-output .plugin ./_config.json`"
+          echo "::set-output name=url::`jq --raw-output .url ./_config.json`"
+
+      - name: Process Post
+        run: node -e "require('./src/main').main()"
+        env:
+          GITHUB_TOKEN: ${{ secrets.token }}
+
+      - name: Build WebSite
+        run: |
+          mkdir hexo && npx hexo init hexo
+          cd hexo
+          npm i ${{ steps.config.outputs.theme }}
+          npm i ${{ steps.config.outputs.plugin }}
+          cp ../src/site_config.yml ./_config.yml && cp ../src/theme_config.yml ./_config.${{ steps.config.outputs.theme_name }}.yml
+          rm -rf ./source && cp -r ../dist ./source
+          npx hexo g
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./hexo/public
+          force_orphan: true
+          cname: ${{ steps.config.outputs.url }}

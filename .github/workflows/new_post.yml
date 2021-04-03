@@ -1,0 +1,41 @@
+name: Create New Post
+
+on: 
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm i
+
+      - name: Generate Post File
+        run: node -e "require('./src/new_post').generate_files(${{ github.event.issue.number }})"
+          
+      - name: Commit Changes
+        run: |
+          git config user.name "BloginhubBot"
+          git config user.email "81683602+BloginhubBot@users.noreply.github.com"
+          git add ./dist/_posts
+          git commit -m "New Post #${{ github.event.issue.number }}"
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

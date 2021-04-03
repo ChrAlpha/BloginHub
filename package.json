@@ -1,0 +1,25 @@
+{
+  "name": "bloginhub",
+  "version": "0.0.1",
+  "description": "Write & Share all in GitHub",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chralpha/Bloginhub.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Issue",
+    "Blog",
+    "Hexo"
+  ],
+  "author": "ChrAlpha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chralpha/Bloginhub/issues"
+  },
+  "homepage": "https://github.com/chralpha/Bloginhub#readme"
+}

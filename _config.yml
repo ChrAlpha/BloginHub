@@ -1,0 +1,17 @@
+# username/reponame
+repo: 
+
+# Themes: https://hexo.io/themes/
+theme: 
+
+# Plugins: https://hexo.io/plugins/
+# use space for multiple plugins
+plugin:
+
+# Front-matter: https://hexo.io/docs/front-matter.html
+front_matter:
+  # - 
+  # - 
+
+# custom domain for GitHub Pages
+url:
