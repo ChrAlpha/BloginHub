@@ -7,9 +7,10 @@ Share you ideas with [GitHub Issues](https://guides.github.com/features/issues/)
 ## First to use
 
 0. Click on the **Use this template** button on the top right, enter the name for your new repository
-1. Configurate the `_config.yml` files, the `repo` and `theme` are required
-2. (Optional) Configurate the `src/site_config.yml` as Hexo Site Config file and `src/theme_config` as Hexo Theme Config file
-3. (Optional) If you've used Hexo before, just upload all files from `source/` in your Hexo path to `dist/` in this repository
+1. Generate a new [personal access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token), [create a secrets](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) for this repository, name as `token` and paste your personal access token into Value field (make sure no spaces or linebreaks before/after the token)
+2. Configurate the `_config.yml` files, the `repo` and `theme` are required
+3. (Optional) Configurate the `src/site_config.yml` as Hexo Site Config file and `src/theme_config` as Hexo Theme Config file
+4. (Optional) If you've used Hexo before, just upload all files from `source/` in your Hexo path to `dist/` in this repository
 
 ## Write new post
 
