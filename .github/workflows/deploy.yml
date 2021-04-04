@@ -50,7 +50,8 @@ jobs:
           rm -rf ./source && cp -r ../dist ./source
           npx hexo g
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages with Custom Domain
+        if: steps.config.outputs.url != 'null'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,3 +59,12 @@ jobs:
           publish_dir: ./hexo/public
           force_orphan: true
           cname: ${{ steps.config.outputs.url }}
+        
+      - name: Deploy to GitHub Pages with Default Domain
+        if: steps.config.outputs.url == 'null'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./hexo/public
+          force_orphan: true
