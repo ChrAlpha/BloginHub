@@ -27,7 +27,7 @@ function main(page = 1) {
                 let title = post.title,
                     date = post.created_at.replace(/[TZ]/g, ' '),
                     updated = post.updated_at.replace(/[TZ]/g, ' '),
-                    categories = post.milestone;
+                    categories = post.milestone.title;
                 let tags = [];
                 post.labels.forEach((tag) => {
                     tags.push(tag.name);
